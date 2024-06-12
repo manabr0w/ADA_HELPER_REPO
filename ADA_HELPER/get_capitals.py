@@ -14,5 +14,3 @@ def get_capital():
         else:
             print(f"Вибачте, інформація про столицю країни {country} відсутня. Будь ласка, спробуйте ще раз.")
 
-if __name__ == '__main__':
-    get_capital()

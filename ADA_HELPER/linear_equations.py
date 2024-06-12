@@ -1,3 +1,35 @@
+def solve_addition(parts, result):
+    if 'x' in parts[0]:
+        a = float(parts[1].strip())
+        return result - a
+    else:
+        a = float(parts[0].strip())
+        return result - a
+
+def solve_subtraction(parts, result):
+    if 'x' in parts[0]:
+        a = float(parts[1].strip())
+        return result + a
+    else:
+        a = float(parts[0].strip())
+        return a - result
+
+def solve_multiplication(parts, result):
+    if 'x' in parts[0]:
+        a = float(parts[1].strip())
+        return result / a
+    else:
+        a = float(parts[0].strip())
+        return result / a
+
+def solve_division(parts, result):
+    if 'x' in parts[0]:
+        a = float(parts[1].strip())
+        return result * a
+    else:
+        a = float(parts[0].strip())
+        return a / result
+
 def solve_linear_equation():
     equation = input("Введіть рівняння (наприклад, 'x + 5 = 12'): ")
 
@@ -5,57 +37,32 @@ def solve_linear_equation():
     left_side = left_side.strip()
     right_side = right_side.strip()
 
-    if 'x' in left_side:
+    x_in_left_side = 'x' in left_side
+
+    if x_in_left_side:
         expression, result = left_side, right_side
-        unknown_on_left = True
     else:
         expression, result = right_side, left_side
-        unknown_on_left = False
 
     result = float(result)
 
-    if '+' in expression:
-        parts = expression.split('+')
-        if 'x' in parts[0]:
-            a = float(parts[1].strip())
-            x = result - a
-        else:
-            a = float(parts[0].strip())
-            x = result - a
+    operations = {
+        '+': solve_addition,
+        '-': solve_subtraction,
+        '*': solve_multiplication,
+        '/': solve_division
+    }
 
-    elif '-' in expression:
-        parts = expression.split('-')
-        if 'x' in parts[0]:
-            a = float(parts[1].strip())
-            x = result + a
-        else:
-            a = float(parts[0].strip())
-            x = a - result
-
-    elif '*' in expression:
-        parts = expression.split('*')
-        if 'x' in parts[0]:
-            a = float(parts[1].strip())
-            x = result / a
-        else:
-            a = float(parts[0].strip())
-            x = result / a
-
-    elif '/' in expression:
-        parts = expression.split('/')
-        if 'x' in parts[0]:
-            a = float(parts[1].strip())
-            x = result * a
-        else:
-            a = float(parts[0].strip())
-            x = a / result
-
+    for operator, function in operations.items():
+        if operator in expression:
+            parts = expression.split(operator)
+            x = function(parts, result)
+            break
     else:
         return "Невідома операція."
 
-    if unknown_on_left:
+    if x_in_left_side:
         print(f"x = {x}")
     else:
         print(f"{x} = x")
-
 
